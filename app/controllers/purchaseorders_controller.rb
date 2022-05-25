@@ -2,8 +2,6 @@ class PurchaseordersController < ApplicationController
   before_action :purchase_params, only: %i[ create ]
 
   def index
-    @purchases = PurchaseOrder.all
-    render :json => @purchases
   end
 
   def show
