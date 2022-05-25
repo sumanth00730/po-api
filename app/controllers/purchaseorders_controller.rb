@@ -1,7 +1,7 @@
 class PurchaseordersController < ApplicationController
   def index
-    @purchaseorder = PurchaseOrder.all
-    render :json @purchaseorder
+    @purchases = PurchaseOrder.all
+    render :json @purchases
   end
 
   def show
