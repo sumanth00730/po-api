@@ -2,6 +2,8 @@ class PurchaseordersController < ApplicationController
   before_action :purchase_params, only: %i[ create ]
 
   def index
+    @purchases = PurchaseOrder.all
+    render json: @purchases
   end
 
   def show
@@ -24,6 +26,6 @@ class PurchaseordersController < ApplicationController
 
   private
     def purchase_params
-      params.require(:purchase).permit(:po_number,:delivery_date,:date,:payment_terms,:amount,:cgst,:sgst,:igst,:tds,:description)
+      params.require(:purchaseorder).permit(:po_number,:delivery_date,:date,:payment_terms,:amount,:cgst,:sgst,:igst,:tds,:description)
     end
 end
