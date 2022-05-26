@@ -13,7 +13,6 @@
 ActiveRecord::Schema.define(version: 2022_05_25_042829) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "adminpack"
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
 
