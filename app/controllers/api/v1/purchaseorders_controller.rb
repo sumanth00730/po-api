@@ -43,7 +43,7 @@ class Api::V1::PurchaseordersController < ApplicationController
 
   private
     def purchase_params
-      params.require(:purchaseorder).permit(:po_number,:delivery_date,:date,:payment_terms,:amount,:cgst,:sgst,:igst,:tds,:description)
+      params.require(:purchaseorder).permit(:po_number,:delivery_date,:date,:amount,:cgst,:sgst,:igst,:tds,:description,:total_amount)
     end
     def find_order
       @purchase = PurchaseOrder.find(params[:id])
