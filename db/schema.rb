@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_25_042829) do
+ActiveRecord::Schema.define(version: 2022_05_26_094714) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "adminpack"
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
 
@@ -20,15 +21,16 @@ ActiveRecord::Schema.define(version: 2022_05_25_042829) do
     t.string "po_number"
     t.date "delivery_date"
     t.date "date"
-    t.text "payment_terms"
     t.float "amount"
     t.float "cgst"
     t.float "sgst"
     t.float "igst"
     t.float "tds"
     t.text "description"
+    t.float "total_amount"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
+
 
 end
