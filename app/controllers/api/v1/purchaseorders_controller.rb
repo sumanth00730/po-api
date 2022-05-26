@@ -8,7 +8,9 @@ class Api::V1::PurchaseordersController < ApplicationController
   end
 
   def show
-    render json: {status: 'SUCCESS', message: 'Successfully fetched vendor', data: @purchase},status: :ok
+  
+  render json: {status: 'SUCCESS', message: 'Successfully fetched vendor', data: @purchase},status: :ok
+      
   end
 
   def destroy
@@ -46,6 +48,10 @@ class Api::V1::PurchaseordersController < ApplicationController
       params.require(:purchaseorder).permit(:po_number,:delivery_date,:date,:payment_terms,:amount,:cgst,:sgst,:igst,:tds,:description)
     end
     def find_order
-      @purchase = PurchaseOrder.find(params[:id])
+      begin
+        @purchase = PurchaseOrder.find(params[:id])  
+      rescue Exception => e
+        render json: {status: 404, message:"No purchase Order exists with given Id"},status: :not_found 
+      end  
     end
 end
