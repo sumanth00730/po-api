@@ -5,7 +5,7 @@ class Api::V1::PurchaseordersController < ApplicationController
   require 'open-uri'
   require 'rest-client'
   def index
-    @purchases = PurchaseOrder.all
+    @purchases = PurchaseOrder.paginate(:page => params[:page], :per_page => 10)
     render json: @purchases
   end
 
@@ -36,11 +36,7 @@ class Api::V1::PurchaseordersController < ApplicationController
 
   def create
     @file = PurchaseOrder.new(purchase_params)
-    
-        
-            # p "------------------------------"
-            # p params.inspect
-            # p "------------------------------"
+  
             temp_file_path = params[:invoice].tempfile.path
             request = RestClient::Request.new(
                 :method => :post,
@@ -54,12 +50,10 @@ class Api::V1::PurchaseordersController < ApplicationController
             @a = data[0]["Value"]
             @a = @a.strip
             puts @a
-      
+      #render json: response
         response = RestClient.get 'https://1cd3-183-82-114-140.in.ngrok.io/api/v1/vendorinfos'
-      
         @b = JSON.parse(response.body)
-        # @c = @b[0]["vendor_company_name"].strip
-
+        render json: @b
         length = @b.size
         (length).times do |ind|
           @c = @b[ind]["vendor_company_name"].strip
@@ -68,17 +62,6 @@ class Api::V1::PurchaseordersController < ApplicationController
             @file.save
           end
         end
-
-
-
-
-        # @a["vendor_id"] = @b[0]["id"]
-        # (1).times do |index|
-        #   if @c == @a
-        #     @file.vendor_id = @c[index]["id"]
-        #     @file.save
-        #   end
-        # end
   end
 
   private
