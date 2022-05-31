@@ -1,7 +1,9 @@
+
 class Api::V1::PurchaseordersController < ApplicationController
   before_action :purchase_params, only: %i[ create update ]
   before_action :find_order, only: %i[ destroy update show]
-
+  require 'open-uri'
+  require 'rest-client'
   def index
     @purchases = PurchaseOrder.all
     render json: @purchases
@@ -33,17 +35,55 @@ class Api::V1::PurchaseordersController < ApplicationController
   end
 
   def create
-    @purchases = PurchaseOrder.new(purchase_params)
-    if @purchases.save
-      render json: @purchases, status: :created
-    else
-      render json: @purchases.errors, status: :unprocessable_entity
-    end
+    @file = PurchaseOrder.new(purchase_params)
+    
+        
+            # p "------------------------------"
+            # p params.inspect
+            # p "------------------------------"
+            temp_file_path = params[:invoice].tempfile.path
+            request = RestClient::Request.new(
+                :method => :post,
+                :url => 'https://8cec-183-82-114-140.in.ngrok.io',
+                :payload => {
+                  :multipart => true,
+                  :file => File.new(temp_file_path,'rb')
+                })      
+            response = request.execute
+            data = JSON.parse(response.body)
+            @a = data[0]["Value"]
+            @a = @a.strip
+            puts @a
+      
+        response = RestClient.get 'https://1cd3-183-82-114-140.in.ngrok.io/api/v1/vendorinfos'
+      
+        @b = JSON.parse(response.body)
+        # @c = @b[0]["vendor_company_name"].strip
+
+        length = @b.size
+        (length).times do |ind|
+          @c = @b[ind]["vendor_company_name"].strip
+          if @a == @c
+            @file.vendor_id = @b[ind]['id']
+            @file.save
+          end
+        end
+
+
+
+
+        # @a["vendor_id"] = @b[0]["id"]
+        # (1).times do |index|
+        #   if @c == @a
+        #     @file.vendor_id = @c[index]["id"]
+        #     @file.save
+        #   end
+        # end
   end
 
   private
     def purchase_params
-      params.require(:purchaseorder).permit(:po_number,:delivery_date,:date,:amount,:cgst,:sgst,:igst,:tds,:description,:total_amount)
+      params.permit(:po_number,:delivery_date,:date,:amount,:cgst,:sgst,:igst,:tds,:description,:total_amount,:invoice)
     end
     def find_order
       @purchase = PurchaseOrder.find(params[:id])
