@@ -101,6 +101,8 @@ GEM
     msgpack (1.5.1)
     netrc (0.11.0)
     nio4r (2.5.8)
+    nokogiri (1.13.6-arm64-darwin)
+      racc (~> 1.4)
     nokogiri (1.13.6-x64-mingw32)
       racc (~> 1.4)
     nokogiri (1.13.6-x86-mingw32)
@@ -220,6 +222,8 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8.2)
+    unf_ext (0.0.8.2-x64-mingw32)
+    unf_ext (0.0.8.2-x86-mingw32)
     uri (0.11.0)
     websocket-driver (0.7.5)
       websocket-extensions (>= 0.1.0)
@@ -228,6 +232,7 @@ GEM
     zeitwerk (2.5.4)
 
 PLATFORMS
+  arm64-darwin-21
   x64-mingw32
   x86-mingw32
   x86_64-linux
@@ -256,4 +261,4 @@ RUBY VERSION
    ruby 3.0.4p208
 
 BUNDLED WITH
-   2.3.14
+   2.3.15
